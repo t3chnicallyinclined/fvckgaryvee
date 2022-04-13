@@ -12,6 +12,7 @@ use protocol::types::{Address, Bytes};
 use rand::rngs::OsRng;
 use serde::Serialize;
 use tentacle_secio::SecioKeyPair;
+use bech32::{self, FromBase32, ToBase32, Variant};
 
 #[derive(Default, Serialize, Debug)]
 struct Keypair {
@@ -21,6 +22,7 @@ struct Keypair {
     pub address:        String,
     pub peer_id:        String,
     pub bls_public_key: String,
+    pub fvgaddress:     String,
 }
 
 #[derive(Default, Serialize, Debug)]
@@ -61,12 +63,14 @@ pub fn main() {
         k.public_key = add_0x(hex_encode(pubkey));
         k.peer_id = keypair.public_key().peer_id().to_base58();
         k.address = add_0x(hex_encode(address.as_slice()));
+        k.fvgaddress = bech32::encode("fvckgaryvee", keypair.public_key().inner().to_base32(), Variant::Bech32).unwrap();
 
         let priv_key = BlsPrivateKey::try_from(seckey.as_ref()).unwrap();
         let pub_key = priv_key.pub_key(&output.common_ref);
         k.bls_public_key = add_0x(hex_encode(pub_key.to_bytes()));
         k.index = i + 1;
         output.keypairs.push(k);
+        println!("{:?}", address);
     }
     let output_str = serde_json::to_string_pretty(&output).unwrap();
     println!("{}", output_str);
