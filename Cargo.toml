@@ -1,9 +1,9 @@
 [package]
-name = "axon"
+name = "fvckgaryvee"
 version = "0.1.0"
-authors = ["Nervos Dev <dev@nervos.org>"]
+authors = ["Technically Inclined <technicallyinclined@protonmail.com>"]
 edition = "2021"
-repository = "https://github.com/nervosnetwork/axon"
+repository = "https://github.com/t3chnicallyinclined/fvckgaryvee"
 
 [dependencies]
 byzantine = { path = "./byzantine" }
